@@ -1,0 +1,84 @@
+version: "3"
+
+services:
+  eureka-server:
+    build: ./demo-eureka-server
+    container_name: eureka-server
+    hostname: eureka-server
+    ports:
+      - "8761:8761"
+    networks:
+      - main
+  adjective:
+    build: ./demo-eureka-client-adjective
+    container_name: adjective
+    hostname: adjective
+    environment:
+      - SERVER_PORT=8011
+    networks:
+      - main
+    depends_on:
+      - eureka-server
+  article:
+    build: ./demo-eureka-client-article
+    container_name: article
+    hostname: article
+    environment:
+      - SERVER_PORT=8012
+    networks:
+      - main
+    depends_on:
+      - eureka-server
+  noun:
+    build: ./demo-eureka-client-noun
+    container_name: noun
+    hostname: noun
+    environment:
+      - SERVER_PORT=8013
+    networks:
+      - main
+    depends_on:
+      - eureka-server
+  subject:
+    build: ./demo-eureka-client-subject
+    container_name: subject
+    hostname: subject
+    environment:
+      - SERVER_PORT=8014
+    networks:
+      - main
+    depends_on:
+      - eureka-server
+  verb:
+    build: ./demo-eureka-client-verb
+    container_name: verb
+    hostname: verb
+    environment:
+      - SERVER_PORT=8015
+    networks:
+      - main
+    depends_on:
+      - eureka-server
+  sentence:
+    build: ./demo-eureka-client-sentence
+    container_name: sentence
+    hostname: sentence
+    environment:
+      - SERVER_PORT=8080
+    ports:
+      - "8080:8080"
+    networks:
+      - main
+    depends_on:
+      - eureka-server
+      - adjective
+      - article
+      - noun
+      - subject
+      - verb
+
+networks:
+  main:
+    driver: bridge
+    
+      
